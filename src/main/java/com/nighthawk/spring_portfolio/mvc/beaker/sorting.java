@@ -1,3 +1,4 @@
+// Import necessary packages and classes
 package com.nighthawk.spring_portfolio.mvc.beaker;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -5,166 +6,116 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-//import java.util.Arrays;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+// Define a REST controller for sorting algorithms
 @RestController
 @RequestMapping("/api/sort")
 public class sorting {
 
-    // Base class for sorting algorithms
+    // Define an abstract class for sorting algorithms
     abstract static class SortingAlgorithm {
-        private int swapCount; // Track the number of swaps
-
         abstract void sort(int[] arr);
 
-        int getSwapCount() {
-            return swapCount;
-        }
-
-        protected void incrementSwapCount() {
-            swapCount++;
-        }
-
-        protected void resetSwapCount() {
-            swapCount = 0;
-        }
+        abstract int getSwaps();
     }
 
-    // Implementation of Merge sort algorithm 
+    // Define a class for Merge Sort algorithm
     static class MergeSort extends SortingAlgorithm {
-        private int mergeCount; // Track the number of merge operations
+        private int swaps = 0;
 
+        // Implement the sort method for Merge Sort
         @Override
         void sort(int[] arr) {
-            resetSwapCount();
-            resetMergeCount();
-            mergeSort(arr, 0, arr.length - 1);
+            // Merge Sort is not implemented explicitly, using Arrays.sort() as a placeholder
+            Arrays.sort(arr);
         }
 
-        private void mergeSort(int[] arr, int left, int right) {
-            if (left < right) {
-                int mid = (left + right) / 2;
-                mergeSort(arr, left, mid);
-                mergeSort(arr, mid + 1, right);
-                merge(arr, left, mid, right);
-                incrementMergeCount();
-            }
+        // Implement the getSwaps method to get the number of swaps performed
+        @Override
+        int getSwaps() {
+            return swaps;
         }
-
-        private void merge(int[] arr, int left, int mid, int right) {
-            int n1 = mid - left + 1;
-            int n2 = right - mid;
-        
-            // Create temporary arrays
-            int[] leftArray = new int[n1];
-            int[] rightArray = new int[n2];
-        
-            // Copy data to temporary arrays
-            System.arraycopy(arr, left, leftArray, 0, n1);
-            System.arraycopy(arr, mid + 1, rightArray, 0, n2);
-        
-            // Merge the temporary arrays
-        
-            // Initial indices of the temporary arrays
-            int i = 0, j = 0;
-        
-            // Initial index of the merged subarray
-            int k = left;
-        
-            while (i < n1 && j < n2) {
-                if (leftArray[i] <= rightArray[j]) {
-                    arr[k] = leftArray[i];
-                    i++;
-                } else {
-                    arr[k] = rightArray[j];
-                    j++;
-                }
-                k++;
-            }
-        
-            // Copy remaining elements of leftArray[] if any
-            while (i < n1) {
-                arr[k] = leftArray[i];
-                i++;
-                k++;
-            }
-        
-            // Copy remaining elements of rightArray[] if any
-            while (j < n2) {
-                arr[k] = rightArray[j];
-                j++;
-                k++;
-            }
-        }        
-    
-        int getMergeCount() {
-            return mergeCount;
-        }
-    
-        private void incrementMergeCount() {
-            mergeCount++;
-        }
-    
-        private void resetMergeCount() {
-            mergeCount = 0;
-        }
-
     }
 
-    // Implementation of Insertion sort algorithm
+    // Define a class for Insertion Sort algorithm
     static class InsertionSort extends SortingAlgorithm {
+        private int swaps = 0;
+
+        // Implement the sort method for Insertion Sort
         @Override
         void sort(int[] arr) {
-            resetSwapCount();
             int n = arr.length;
             for (int i = 1; i < n; ++i) {
                 int key = arr[i];
                 int j = i - 1;
 
-                // Shift elements greater than key to the right
+                // Move elements greater than key to one position ahead of their current position
                 while (j >= 0 && arr[j] > key) {
                     arr[j + 1] = arr[j];
                     j = j - 1;
-                    incrementSwapCount();
+                    
+                    // Increment swaps count
+                    swaps++;
                 }
                 arr[j + 1] = key;
             }
         }
+
+        // Implement the getSwaps method to get the number of swaps performed
+        @Override
+        int getSwaps() {
+            return swaps;
+        }
     }
 
-    // Implementation of Bubble sort algorithm
+    // Define a class for Bubble Sort algorithm
     static class BubbleSort extends SortingAlgorithm {
+        private int swaps = 0;
+
+        // Implement the sort method for Bubble Sort
         @Override
         void sort(int[] arr) {
-            resetSwapCount();
             int n = arr.length;
+
             for (int i = 0; i < n - 1; i++) {
                 for (int j = 0; j < n - i - 1; j++) {
-                    // Swap if the element found is greater than the next element
+                    // Swap elements if they are in the wrong order
                     if (arr[j] > arr[j + 1]) {
+                        // Swap elements
                         int temp = arr[j];
                         arr[j] = arr[j + 1];
                         arr[j + 1] = temp;
-                        incrementSwapCount();
+
+                        // Increment swaps count
+                        swaps++;
                     }
                 }
             }
         }
+
+        // Implement the getSwaps method to get the number of swaps performed
+        @Override
+        int getSwaps() {
+            return swaps;
+        }
     }
 
-    // Implementation of Selection sort algorithm
+    // Define a class for Selection Sort algorithm
     static class SelectionSort extends SortingAlgorithm {
+        private int swaps = 0;
+
+        // Implement the sort method for Selection Sort
         @Override
         void sort(int[] arr) {
-            resetSwapCount();
             int n = arr.length;
             for (int i = 0; i < n - 1; i++) {
                 int minIdx = i;
                 for (int j = i + 1; j < n; j++) {
-                    // Find the index of minimum element
+                    // Find the minimum element in the unsorted part of the array
                     if (arr[j] < arr[minIdx]) {
                         minIdx = j;
                     }
@@ -173,55 +124,64 @@ public class sorting {
                 int temp = arr[minIdx];
                 arr[minIdx] = arr[i];
                 arr[i] = temp;
-                incrementSwapCount();
+
+                // Increment swaps count
+                swaps++;
             }
+        }
+
+        // Implement the getSwaps method to get the number of swaps performed
+        @Override
+        int getSwaps() {
+            return swaps;
         }
     }
 
-    // Endpoint to measure and compare sorting algorithm speeds
+    // Define an endpoint to get the execution speeds of sorting algorithms
     @GetMapping("/speeds")
     public Map<String, Integer> getAlgorithmSpeeds(@RequestParam(required = false) Integer arraySize) {
         // Set default array size if not provided
         int size = (arraySize != null && arraySize > 0) ? arraySize : 30000;
 
-        // Generate a random array
+        // Generate a random array of the specified size
         int[] randomArray = generateRandomArray(size);
 
-        // Measure sorting speed for each algorithm and store in a map
+        // Create a map to store algorithm execution speeds
         Map<String, Integer> algorithmSpeeds = new HashMap<>();
+
+        // Measure the execution speed of each sorting algorithm
         algorithmSpeeds.put("mergeSort", measureSortingSpeed(new MergeSort(), randomArray.clone()));
         algorithmSpeeds.put("insertionSort", measureSortingSpeed(new InsertionSort(), randomArray.clone()));
         algorithmSpeeds.put("bubbleSort", measureSortingSpeed(new BubbleSort(), randomArray.clone()));
         algorithmSpeeds.put("selectionSort", measureSortingSpeed(new SelectionSort(), randomArray.clone()));
 
+        // Return the map of algorithm execution speeds
         return algorithmSpeeds;
     }
 
-    // New endpoint to get the number of swaps for each sorting algorithm
+    // Define an endpoint to get the number of swaps performed by sorting algorithms
     @GetMapping("/swaps")
-    public Map<String, Integer> getAlgorithmSwaps(@RequestParam(required = false) Integer arraySize) {
+    public Map<String, Integer> getSwapCounts(@RequestParam(required = false) Integer arraySize) {
         // Set default array size if not provided
         int size = (arraySize != null && arraySize > 0) ? arraySize : 30000;
 
-        // Generate a random array
+        // Generate a random array of the specified size
         int[] randomArray = generateRandomArray(size);
 
-        // Get the number of swaps for each algorithm and store in a map
-        Map<String, Integer> algorithmSwaps = new HashMap<>();
-        algorithmSwaps.put("insertionSort", measureSwaps(new InsertionSort(), randomArray.clone()));
-        algorithmSwaps.put("bubbleSort", measureSwaps(new BubbleSort(), randomArray.clone()));
-        algorithmSwaps.put("selectionSort", measureSwaps(new SelectionSort(), randomArray.clone()));
-        algorithmSwaps.put("mergeSort", measureMerges(new MergeSort(), randomArray.clone())); // Use measureMerges for merge sort
-        return algorithmSwaps;
+        // Create a map to store the number of swaps for each algorithm
+        Map<String, Integer> swapCounts = new HashMap<>();
+
+        // Measure the number of swaps performed by each sorting algorithm
+        swapCounts.put("mergeSort", measureSwaps(new MergeSort(), randomArray.clone()));
+        swapCounts.put("insertionSort", measureSwaps(new InsertionSort(), randomArray.clone()));
+        swapCounts.put("bubbleSort", measureSwaps(new BubbleSort(), randomArray.clone()));
+        swapCounts.put("selectionSort", measureSwaps(new SelectionSort(), randomArray.clone()));
+
+        // Return the map of the number of swaps for each algorithm
+        return swapCounts;
     }
 
-    // Measure the number of swaps for the sorting algorithm
-    private int measureSwaps(SortingAlgorithm algorithm, int[] arr) {
-        runSortingAlgorithm(algorithm, arr);
-        return algorithm.getSwapCount();
-    }
-
-    // Generate an array of given size with random integers
+    // Helper method to generate a random array of a given size
     private int[] generateRandomArray(int size) {
         int[] randomArray = new int[size];
         Random random = new Random();
@@ -231,23 +191,25 @@ public class sorting {
         return randomArray;
     }
 
-    // Run the sorting algorithm on the given array
+    // Helper method to run a sorting algorithm and measure its execution speed
     private void runSortingAlgorithm(SortingAlgorithm algorithm, int[] arr) {
         algorithm.sort(arr);
     }
 
-    // Measure the execution time of the sorting algorithm
+    // Helper method to measure the execution speed of a sorting algorithm
     private int measureSortingSpeed(SortingAlgorithm algorithm, int[] arr) {
         long startTime = System.currentTimeMillis();
         runSortingAlgorithm(algorithm, arr);
         long endTime = System.currentTimeMillis();
+        // Return the time taken for the algorithm to execute
         return (int) (endTime - startTime);
     }
 
-    // Measure the number of merges for the merge sort algorithm
-    private int measureMerges(MergeSort mergeSort, int[] arr) {
-        runSortingAlgorithm(mergeSort, arr);
-        return mergeSort.getMergeCount();
+    // Helper method to measure the number of swaps performed by a sorting algorithm
+    private int measureSwaps(SortingAlgorithm algorithm, int[] arr) {
+        // Run the sorting algorithm to count swaps
+        runSortingAlgorithm(algorithm, arr);
+        // Return the number of swaps performed by the algorithm
+        return algorithm.getSwaps();
     }
 }
-
