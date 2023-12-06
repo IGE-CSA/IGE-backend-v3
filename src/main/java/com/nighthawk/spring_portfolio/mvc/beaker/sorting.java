@@ -1,6 +1,7 @@
 // Import necessary packages and classes
 package com.nighthawk.spring_portfolio.mvc.beaker;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,6 +15,7 @@ import java.util.Random;
 // Define a REST controller for sorting algorithms
 @RestController
 @RequestMapping("/api/sort")
+@CrossOrigin(origins="https://ige-csa.github.io/")
 public class sorting {
 
     // Define an abstract class for sorting algorithms
