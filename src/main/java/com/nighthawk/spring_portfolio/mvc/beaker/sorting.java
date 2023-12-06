@@ -1,5 +1,6 @@
 package com.nighthawk.spring_portfolio.mvc.beaker;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,6 +13,7 @@ import java.util.Random;
 
 @RestController
 @RequestMapping("/api/sort")
+@CrossOrigin(origins="https://ige-csa.github.io/")
 public class sorting {
 
     // Base class for sorting algorithms
