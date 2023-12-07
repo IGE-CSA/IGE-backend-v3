@@ -1,3 +1,4 @@
+
 package com.nighthawk.spring_portfolio.mvc.beaker;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -5,17 +6,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-//import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/sortM")
-public class sortingM {
+@RequestMapping("/api/finalsort")
+public class finalsort {
     abstract static class SortingAlgorithm {
         abstract void sort(int[] arr);
-
         abstract int getOperations();
+        int comparisons = 0; // To count comparisons
+        int iterations = 0; // Added to count iterations
+
+        int getComparisons() {
+            return comparisons;
+        }
+
+        int getIterations() { // Getter for iterations
+            return iterations;
+        }
     }
 
     static class MergeSort extends SortingAlgorithm {
@@ -29,17 +38,17 @@ public class sortingM {
 
         private void mergeSort(int[] arr, int[] temp, int left, int right) {
             if (left < right) {
+                iterations++;
                 int mid = (left + right) / 2;
-
                 mergeSort(arr, temp, left, mid);
                 mergeSort(arr, temp, mid + 1, right);
-
                 merge(arr, temp, left, mid, right);
             }
         }
 
         private void merge(int[] arr, int[] temp, int left, int mid, int right) {
             for (int i = left; i <= right; i++) {
+                iterations++;
                 temp[i] = arr[i];
             }
 
@@ -48,6 +57,7 @@ public class sortingM {
             int k = left;
 
             while (i <= mid && j <= right) {
+                comparisons++; // Counting each comparison
                 if (temp[i] <= temp[j]) {
                     arr[k] = temp[i];
                     i++;
@@ -72,7 +82,7 @@ public class sortingM {
             return merges;
         }
     }
-    
+
     static class InsertionSort extends SortingAlgorithm {
         private int swaps = 0;
 
@@ -80,42 +90,39 @@ public class sortingM {
         void sort(int[] arr) {
             int n = arr.length;
             for (int i = 1; i < n; ++i) {
+                iterations++; // Increment iterations
                 int key = arr[i];
                 int j = i - 1;
 
-                while (j >= 0 && arr[j] > key) {
+                // Adding comparison counting
+                while (j >= 0 && ++comparisons > 0 && arr[j] > key) {
                     arr[j + 1] = arr[j];
                     j = j - 1;
                     swaps++;
                 }
                 arr[j + 1] = key;
             }
-        }
-
+    }
         @Override
-        int getSwaps() {
+        int getOperations() {
             return swaps;
         }
     }
 
     static class BubbleSort extends SortingAlgorithm {
         private int swaps = 0;
-
-        // add long time here and start it -- ask chat how to define I do not remember
-
         @Override
         void sort(int[] arr) {
             int n = arr.length;
-
             for (int i = 0; i < n - 1; i++) {
                 for (int j = 0; j < n - i - 1; j++) {
-                    if (arr[j] > arr[j + 1]) {
+                    iterations++; // Increment iterations
+                    // Adding comparison counting
+                    if (++comparisons > 0 && arr[j] > arr[j + 1]) {
                         // Swap elements
                         int temp = arr[j];
                         arr[j] = arr[j + 1];
                         arr[j + 1] = temp;
-
-                        // Increment swaps count
                         swaps++;
                     }
                 }
@@ -123,11 +130,9 @@ public class sortingM {
         }
 
         @Override
-        int getSwaps() {
+        int getOperations() {
             return swaps;
         }
-
-        // Ask chat to end the time here, return the time
     }
 
     static class SelectionSort extends SortingAlgorithm {
@@ -139,10 +144,13 @@ public class sortingM {
             for (int i = 0; i < n - 1; i++) {
                 int minIdx = i;
                 for (int j = i + 1; j < n; j++) {
-                    if (arr[j] < arr[minIdx]) {
+                    iterations++; // Increment iterations
+                    // Adding comparison counting
+                    if (++comparisons > 0 && arr[j] < arr[minIdx]) {
                         minIdx = j;
                     }
                 }
+                // Swap the found minimum element with the first element
                 int temp = arr[minIdx];
                 arr[minIdx] = arr[i];
                 arr[i] = temp;
@@ -151,7 +159,7 @@ public class sortingM {
         }
 
         @Override
-        int getSwaps() {
+        int getOperations() {
             return swaps;
         }
     }
@@ -186,6 +194,35 @@ public class sortingM {
         swapCounts.put("selectionSort", measureSwaps(new SelectionSort(), fixedArray.clone()));
 
         return swapCounts;
+    }
+
+    @GetMapping("/comparisons")
+    public Map<String, Integer> getComparisonCounts(@RequestParam(required = false) Integer arraySize) {
+        // Replace the random array with a fixed array of your choosing
+        int[] fixedArray = generateFixedArray();
+
+        Map<String, Integer> comparisonCounts = new HashMap<>();
+
+        comparisonCounts.put("mergeSort", measureComparisons(new MergeSort(), fixedArray.clone()));
+        comparisonCounts.put("insertionSort", measureComparisons(new InsertionSort(), fixedArray.clone()));
+        comparisonCounts.put("bubbleSort", measureComparisons(new BubbleSort(), fixedArray.clone()));
+        comparisonCounts.put("selectionSort", measureComparisons(new SelectionSort(), fixedArray.clone()));
+
+        return comparisonCounts;
+    }
+
+    @GetMapping("/iterations")
+    public Map<String, Integer> getIterationCounts(@RequestParam(required = false) Integer arraySize) {
+        int[] fixedArray = generateFixedArray();
+
+        Map<String, Integer> iterationCounts = new HashMap<>();
+
+        iterationCounts.put("mergeSort", measureIterations(new MergeSort(), fixedArray.clone()));
+        iterationCounts.put("insertionSort", measureIterations(new InsertionSort(), fixedArray.clone()));
+        iterationCounts.put("bubbleSort", measureIterations(new BubbleSort(), fixedArray.clone()));
+        iterationCounts.put("selectionSort", measureIterations(new SelectionSort(), fixedArray.clone()));
+
+        return iterationCounts;
     }
 
 
@@ -225,4 +262,15 @@ public class sortingM {
         runSortingAlgorithm(newAlgorithmInstance, arr);
         return newAlgorithmInstance.getOperations();
     }
+
+    private int measureComparisons(SortingAlgorithm algorithm, int[] arr) {
+        runSortingAlgorithm(algorithm, arr);
+        return algorithm.getComparisons();
+    }
+
+    private int measureIterations(SortingAlgorithm algorithm, int[] arr) {
+        runSortingAlgorithm(algorithm, arr);
+        return algorithm.getIterations();
+    }
+
 }

@@ -1,42 +1,78 @@
-// Predefined array, Speed works, Swap works except for merge 
-
-package com.nighthawk.spring_portfolio.mvc.beaker;
+package com.nighthawk.spring_portfolio.mvc.bad;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Arrays;
+//import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-
 @RestController
-@RequestMapping("/api/sortS")
-
-public class sortingS {
-
+@RequestMapping("/api/sortM")
+public class sortingM {
     abstract static class SortingAlgorithm {
         abstract void sort(int[] arr);
 
-        abstract int getSwaps();
+        abstract int getOperations();
     }
 
     static class MergeSort extends SortingAlgorithm {
-        private int swaps = 0;
+        private int merges = 0;
 
         @Override
         void sort(int[] arr) {
-            Arrays.sort(arr);
+            int[] temp = new int[arr.length];
+            mergeSort(arr, temp, 0, arr.length - 1);
+        }
+
+        private void mergeSort(int[] arr, int[] temp, int left, int right) {
+            if (left < right) {
+                int mid = (left + right) / 2;
+
+                mergeSort(arr, temp, left, mid);
+                mergeSort(arr, temp, mid + 1, right);
+
+                merge(arr, temp, left, mid, right);
+            }
+        }
+
+        private void merge(int[] arr, int[] temp, int left, int mid, int right) {
+            for (int i = left; i <= right; i++) {
+                temp[i] = arr[i];
+            }
+
+            int i = left;
+            int j = mid + 1;
+            int k = left;
+
+            while (i <= mid && j <= right) {
+                if (temp[i] <= temp[j]) {
+                    arr[k] = temp[i];
+                    i++;
+                } else {
+                    arr[k] = temp[j];
+                    j++;
+                }
+                k++;
+                merges++; // Counting merge operations
+            }
+
+            while (i <= mid) {
+                arr[k] = temp[i];
+                i++;
+                k++;
+                merges++;
+            }
         }
 
         @Override
-        int getSwaps() {
-            return swaps;
+        int getOperations() {
+            return merges;
         }
     }
-
+    
     static class InsertionSort extends SortingAlgorithm {
         private int swaps = 0;
 
@@ -65,6 +101,8 @@ public class sortingS {
     static class BubbleSort extends SortingAlgorithm {
         private int swaps = 0;
 
+        // add long time here and start it -- ask chat how to define I do not remember
+
         @Override
         void sort(int[] arr) {
             int n = arr.length;
@@ -88,6 +126,8 @@ public class sortingS {
         int getSwaps() {
             return swaps;
         }
+
+        // Ask chat to end the time here, return the time
     }
 
     static class SelectionSort extends SortingAlgorithm {
@@ -157,6 +197,7 @@ public class sortingS {
     private void runSortingAlgorithm(SortingAlgorithm algorithm, int[] arr) {
         algorithm.sort(arr);
     }
+    // 
 
     private int measureSortingSpeed(SortingAlgorithm algorithm, int[] arr) {
         long startTime = System.currentTimeMillis();
@@ -166,8 +207,22 @@ public class sortingS {
     }
 
     private int measureSwaps(SortingAlgorithm algorithm, int[] arr) {
-        runSortingAlgorithm(algorithm, arr);
-        return algorithm.getSwaps();
+        // Create a new instance of the sorting algorithm class
+        SortingAlgorithm newAlgorithmInstance;
+
+        if (algorithm instanceof MergeSort) {
+            newAlgorithmInstance = new MergeSort();
+        } else if (algorithm instanceof InsertionSort) {
+            newAlgorithmInstance = new InsertionSort();
+        } else if (algorithm instanceof BubbleSort) {
+            newAlgorithmInstance = new BubbleSort();
+        } else if (algorithm instanceof SelectionSort) {
+            newAlgorithmInstance = new SelectionSort();
+        } else {
+            throw new IllegalArgumentException("Unknown sorting algorithm");
+        }
+
+        runSortingAlgorithm(newAlgorithmInstance, arr);
+        return newAlgorithmInstance.getOperations();
     }
-    
 }

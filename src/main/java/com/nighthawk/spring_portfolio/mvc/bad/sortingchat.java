@@ -1,5 +1,5 @@
 
-package com.nighthawk.spring_portfolio.mvc.beaker;
+package com.nighthawk.spring_portfolio.mvc.bad;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

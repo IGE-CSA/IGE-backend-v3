@@ -1,78 +1,39 @@
+// Predefined array, Speed works, Swap works except for merge 
 
-package com.nighthawk.spring_portfolio.mvc.beaker;
+package com.nighthawk.spring_portfolio.mvc.bad;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+
 @RestController
-@RequestMapping("/api/sortcomparison")
-public class sortingcomparisons {
+@RequestMapping("/api/sortS")
+
+public class sortingS {
+
     abstract static class SortingAlgorithm {
         abstract void sort(int[] arr);
-        abstract int getOperations();
-        int comparisons = 0; // Added to count comparisons
 
-        int getComparisons() { // Getter for comparisons
-            return comparisons;
-        }
+        abstract int getSwaps();
     }
 
     static class MergeSort extends SortingAlgorithm {
-        private int merges = 0;
+        private int swaps = 0;
 
         @Override
         void sort(int[] arr) {
-            int[] temp = new int[arr.length];
-            mergeSort(arr, temp, 0, arr.length - 1);
-        }
-
-        private void mergeSort(int[] arr, int[] temp, int left, int right) {
-            if (left < right) {
-                int mid = (left + right) / 2;
-                mergeSort(arr, temp, left, mid);
-                mergeSort(arr, temp, mid + 1, right);
-                merge(arr, temp, left, mid, right);
-            }
-        }
-
-        private void merge(int[] arr, int[] temp, int left, int mid, int right) {
-            for (int i = left; i <= right; i++) {
-                temp[i] = arr[i];
-            }
-
-            int i = left;
-            int j = mid + 1;
-            int k = left;
-
-            while (i <= mid && j <= right) {
-                comparisons++; // Counting each comparison
-                if (temp[i] <= temp[j]) {
-                    arr[k] = temp[i];
-                    i++;
-                } else {
-                    arr[k] = temp[j];
-                    j++;
-                }
-                k++;
-                merges++; // Counting merge operations
-            }
-
-            while (i <= mid) {
-                arr[k] = temp[i];
-                i++;
-                k++;
-                merges++;
-            }
+            Arrays.sort(arr);
         }
 
         @Override
-        int getOperations() {
-            return merges;
+        int getSwaps() {
+            return swaps;
         }
     }
 
@@ -86,34 +47,37 @@ public class sortingcomparisons {
                 int key = arr[i];
                 int j = i - 1;
 
-                // Adding comparison counting
-                while (j >= 0 && ++comparisons > 0 && arr[j] > key) {
+                while (j >= 0 && arr[j] > key) {
                     arr[j + 1] = arr[j];
                     j = j - 1;
                     swaps++;
                 }
                 arr[j + 1] = key;
             }
-    }
+        }
+
         @Override
-        int getOperations() {
+        int getSwaps() {
             return swaps;
         }
     }
 
     static class BubbleSort extends SortingAlgorithm {
         private int swaps = 0;
+
         @Override
         void sort(int[] arr) {
             int n = arr.length;
+
             for (int i = 0; i < n - 1; i++) {
                 for (int j = 0; j < n - i - 1; j++) {
-                    // Adding comparison counting
-                    if (++comparisons > 0 && arr[j] > arr[j + 1]) {
+                    if (arr[j] > arr[j + 1]) {
                         // Swap elements
                         int temp = arr[j];
                         arr[j] = arr[j + 1];
                         arr[j + 1] = temp;
+
+                        // Increment swaps count
                         swaps++;
                     }
                 }
@@ -121,7 +85,7 @@ public class sortingcomparisons {
         }
 
         @Override
-        int getOperations() {
+        int getSwaps() {
             return swaps;
         }
     }
@@ -135,12 +99,10 @@ public class sortingcomparisons {
             for (int i = 0; i < n - 1; i++) {
                 int minIdx = i;
                 for (int j = i + 1; j < n; j++) {
-                    // Adding comparison counting
-                    if (++comparisons > 0 && arr[j] < arr[minIdx]) {
+                    if (arr[j] < arr[minIdx]) {
                         minIdx = j;
                     }
                 }
-                // Swap the found minimum element with the first element
                 int temp = arr[minIdx];
                 arr[minIdx] = arr[i];
                 arr[i] = temp;
@@ -149,7 +111,7 @@ public class sortingcomparisons {
         }
 
         @Override
-        int getOperations() {
+        int getSwaps() {
             return swaps;
         }
     }
@@ -186,20 +148,6 @@ public class sortingcomparisons {
         return swapCounts;
     }
 
-    @GetMapping("/comparisons")
-    public Map<String, Integer> getComparisonCounts(@RequestParam(required = false) Integer arraySize) {
-        // Replace the random array with a fixed array of your choosing
-        int[] fixedArray = generateFixedArray();
-
-        Map<String, Integer> comparisonCounts = new HashMap<>();
-
-        comparisonCounts.put("mergeSort", measureComparisons(new MergeSort(), fixedArray.clone()));
-        comparisonCounts.put("insertionSort", measureComparisons(new InsertionSort(), fixedArray.clone()));
-        comparisonCounts.put("bubbleSort", measureComparisons(new BubbleSort(), fixedArray.clone()));
-        comparisonCounts.put("selectionSort", measureComparisons(new SelectionSort(), fixedArray.clone()));
-
-        return comparisonCounts;
-    }
 
     // need LARGE array to show accurate speed calculations 
     private int[] generateFixedArray() {
@@ -209,7 +157,6 @@ public class sortingcomparisons {
     private void runSortingAlgorithm(SortingAlgorithm algorithm, int[] arr) {
         algorithm.sort(arr);
     }
-    // 
 
     private int measureSortingSpeed(SortingAlgorithm algorithm, int[] arr) {
         long startTime = System.currentTimeMillis();
@@ -219,27 +166,8 @@ public class sortingcomparisons {
     }
 
     private int measureSwaps(SortingAlgorithm algorithm, int[] arr) {
-        // Create a new instance of the sorting algorithm class
-        SortingAlgorithm newAlgorithmInstance;
-
-        if (algorithm instanceof MergeSort) {
-            newAlgorithmInstance = new MergeSort();
-        } else if (algorithm instanceof InsertionSort) {
-            newAlgorithmInstance = new InsertionSort();
-        } else if (algorithm instanceof BubbleSort) {
-            newAlgorithmInstance = new BubbleSort();
-        } else if (algorithm instanceof SelectionSort) {
-            newAlgorithmInstance = new SelectionSort();
-        } else {
-            throw new IllegalArgumentException("Unknown sorting algorithm");
-        }
-
-        runSortingAlgorithm(newAlgorithmInstance, arr);
-        return newAlgorithmInstance.getOperations();
-    }
-
-    private int measureComparisons(SortingAlgorithm algorithm, int[] arr) {
         runSortingAlgorithm(algorithm, arr);
-        return algorithm.getComparisons();
+        return algorithm.getSwaps();
     }
+    
 }
