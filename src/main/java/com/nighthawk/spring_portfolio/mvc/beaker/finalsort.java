@@ -1,6 +1,7 @@
 
 package com.nighthawk.spring_portfolio.mvc.beaker;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,6 +12,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/finalsort")
+@CrossOrigin(origins="https://ige-csa.github.io/")
 public class finalsort {
     abstract static class SortingAlgorithm {
         abstract void sort(int[] arr);
