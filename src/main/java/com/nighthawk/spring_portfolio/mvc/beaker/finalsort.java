@@ -166,7 +166,7 @@ public class finalsort {
         }
     }
 
-    @GetMapping("/speeds+swaps")
+    @GetMapping("/everything")
     public Map<String, Integer> getData(@RequestParam(required = false) Integer arraySize) {
 
         // Replace the random array with a fixed array of your choosing
@@ -182,6 +182,14 @@ public class finalsort {
         algorithmData.put("insertionSwap", measureSwaps(new InsertionSort(), fixedArray.clone()));
         algorithmData.put("bubbleSwap", measureSwaps(new BubbleSort(), fixedArray.clone()));
         algorithmData.put("selectionSwap", measureSwaps(new SelectionSort(), fixedArray.clone()));
+        algorithmData.put("mergeComp", measureComparisons(new MergeSort(), fixedArray.clone()));
+        algorithmData.put("insertionComp", measureComparisons(new InsertionSort(), fixedArray.clone()));
+        algorithmData.put("bubbleComp", measureComparisons(new BubbleSort(), fixedArray.clone()));
+        algorithmData.put("selectionComp", measureComparisons(new SelectionSort(), fixedArray.clone()));
+        algorithmData.put("mergeIterations", measureIterations(new MergeSort(), fixedArray.clone()));
+        algorithmData.put("insertionIterations", measureIterations(new InsertionSort(), fixedArray.clone()));
+        algorithmData.put("bubbleIterations", measureIterations(new BubbleSort(), fixedArray.clone()));
+        algorithmData.put("selectionIterations", measureIterations(new SelectionSort(), fixedArray.clone()));
         
 
         return algorithmData;
