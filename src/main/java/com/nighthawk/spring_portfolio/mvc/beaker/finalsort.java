@@ -166,6 +166,27 @@ public class finalsort {
         }
     }
 
+    @GetMapping("/speeds+swaps")
+    public Map<String, Integer> getData(@RequestParam(required = false) Integer arraySize) {
+
+        // Replace the random array with a fixed array of your choosing
+        int[] fixedArray = generateFixedArray();
+
+        Map<String, Integer> algorithmData = new HashMap<>();
+
+        algorithmData.put("mergeSort", measureSortingSpeed(new MergeSort(), fixedArray.clone()));
+        algorithmData.put("insertionSort", measureSortingSpeed(new InsertionSort(), fixedArray.clone()));
+        algorithmData.put("bubbleSort", measureSortingSpeed(new BubbleSort(), fixedArray.clone()));
+        algorithmData.put("selectionSort", measureSortingSpeed(new SelectionSort(), fixedArray.clone()));
+        algorithmData.put("mergeSwap", measureSwaps(new MergeSort(), fixedArray.clone()));
+        algorithmData.put("insertionSwap", measureSwaps(new InsertionSort(), fixedArray.clone()));
+        algorithmData.put("bubbleSwap", measureSwaps(new BubbleSort(), fixedArray.clone()));
+        algorithmData.put("selectionSwap", measureSwaps(new SelectionSort(), fixedArray.clone()));
+        
+
+        return algorithmData;
+    }
+    
     @GetMapping("/speeds")
     public Map<String, Integer> getAlgorithmSpeeds(@RequestParam(required = false) Integer arraySize) {
 
@@ -178,6 +199,7 @@ public class finalsort {
         algorithmSpeeds.put("insertionSort", measureSortingSpeed(new InsertionSort(), fixedArray.clone()));
         algorithmSpeeds.put("bubbleSort", measureSortingSpeed(new BubbleSort(), fixedArray.clone()));
         algorithmSpeeds.put("selectionSort", measureSortingSpeed(new SelectionSort(), fixedArray.clone()));
+        
 
         return algorithmSpeeds;
     }
