@@ -178,10 +178,10 @@ public class finalsort {
 
         Map<String, Integer> algorithmData = new HashMap<>();
 
-        algorithmData.put("mergeSort", measureSortingSpeed(new MergeSort(), fixedArray.clone()));
-        algorithmData.put("insertionSort", measureSortingSpeed(new InsertionSort(), fixedArray.clone()));
-        algorithmData.put("bubbleSort", measureSortingSpeed(new BubbleSort(), fixedArray.clone()));
-        algorithmData.put("selectionSort", measureSortingSpeed(new SelectionSort(), fixedArray.clone()));
+        algorithmData.put("mergeSpeed", measureSortingSpeed(new MergeSort(), fixedArray.clone()));
+        algorithmData.put("insertionSpeed", measureSortingSpeed(new InsertionSort(), fixedArray.clone()));
+        algorithmData.put("bubbleSpeed", measureSortingSpeed(new BubbleSort(), fixedArray.clone()));
+        algorithmData.put("selectionSpeed", measureSortingSpeed(new SelectionSort(), fixedArray.clone()));
         algorithmData.put("mergeSwap", measureSwaps(new MergeSort(), fixedArray.clone()));
         algorithmData.put("insertionSwap", measureSwaps(new InsertionSort(), fixedArray.clone()));
         algorithmData.put("bubbleSwap", measureSwaps(new BubbleSort(), fixedArray.clone()));
