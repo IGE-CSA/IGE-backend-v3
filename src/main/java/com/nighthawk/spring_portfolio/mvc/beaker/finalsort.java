@@ -182,22 +182,22 @@ public class FinalSort {
 
         Map<String, Integer> algorithmData = new HashMap<>();
 
-        algorithmData.put("mergeSort", measureSortingSpeed(new MergeSort(), randomArray.clone()));
-        algorithmData.put("insertionSort", measureSortingSpeed(new InsertionSort(), randomArray.clone()));
-        algorithmData.put("bubbleSort", measureSortingSpeed(new BubbleSort(), randomArray.clone()));
-        algorithmData.put("selectionSort", measureSortingSpeed(new SelectionSort(), randomArray.clone()));
-        algorithmData.put("mergeSwap", measureSwaps(new MergeSort(), randomArray.clone()));
-        algorithmData.put("insertionSwap", measureSwaps(new InsertionSort(), randomArray.clone()));
-        algorithmData.put("bubbleSwap", measureSwaps(new BubbleSort(), randomArray.clone()));
-        algorithmData.put("selectionSwap", measureSwaps(new SelectionSort(), randomArray.clone()));
-        algorithmData.put("mergeComp", measureComparisons(new MergeSort(), randomArray.clone()));
-        algorithmData.put("insertionComp", measureComparisons(new InsertionSort(), randomArray.clone()));
-        algorithmData.put("bubbleComp", measureComparisons(new BubbleSort(), randomArray.clone()));
-        algorithmData.put("selectionComp", measureComparisons(new SelectionSort(), randomArray.clone()));
-        algorithmData.put("mergeIterations", measureIterations(new MergeSort(), randomArray.clone()));
-        algorithmData.put("insertionIterations", measureIterations(new InsertionSort(), randomArray.clone()));
-        algorithmData.put("bubbleIterations", measureIterations(new BubbleSort(), randomArray.clone()));
-        algorithmData.put("selectionIterations", measureIterations(new SelectionSort(), randomArray.clone()));
+        algorithmData.put("mergeSort", measureSortingSpeed(new MergeSort(), fixedArray.clone()));
+        algorithmData.put("insertionSort", measureSortingSpeed(new InsertionSort(), fixedArray.clone()));
+        algorithmData.put("bubbleSort", measureSortingSpeed(new BubbleSort(), fixedArray.clone()));
+        algorithmData.put("selectionSort", measureSortingSpeed(new SelectionSort(), fixedArray.clone()));
+        algorithmData.put("mergeSwap", measureSwaps(new MergeSort(), fixedArray.clone()));
+        algorithmData.put("insertionSwap", measureSwaps(new InsertionSort(), fixedArray.clone()));
+        algorithmData.put("bubbleSwap", measureSwaps(new BubbleSort(), fixedArray.clone()));
+        algorithmData.put("selectionSwap", measureSwaps(new SelectionSort(), fixedArray.clone()));
+        algorithmData.put("mergeComp", measureComparisons(new MergeSort(), fixedArray.clone()));
+        algorithmData.put("insertionComp", measureComparisons(new InsertionSort(), fixedArray.clone()));
+        algorithmData.put("bubbleComp", measureComparisons(new BubbleSort(), fixedArray.clone()));
+        algorithmData.put("selectionComp", measureComparisons(new SelectionSort(), fixedArray.clone()));
+        algorithmData.put("mergeIterations", measureIterations(new MergeSort(), fixedArray.clone()));
+        algorithmData.put("insertionIterations", measureIterations(new InsertionSort(), fixedArray.clone()));
+        algorithmData.put("bubbleIterations", measureIterations(new BubbleSort(), fixedArray.clone()));
+        algorithmData.put("selectionIterations", measureIterations(new SelectionSort(), fixedArray.clone()));
         
 
         return algorithmData;
