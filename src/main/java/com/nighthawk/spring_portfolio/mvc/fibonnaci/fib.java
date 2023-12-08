@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/api/fibonacci")
+
 public class fib {
 
     abstract static class FibonacciAlgorithm {
