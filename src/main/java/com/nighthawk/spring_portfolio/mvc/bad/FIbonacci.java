@@ -1,4 +1,4 @@
-package com.nighthawk.spring_portfolio.mvc.fibonnaci;
+package com.nighthawk.spring_portfolio.mvc.bad;
 
 import org.springframework.web.bind.annotation.*;
 
@@ -11,13 +11,13 @@ import java.util.concurrent.TimeUnit;
 @RestController
 @RequestMapping("/api/fibonacci")
 
-public class fib {
+public class FIbonacci {
 
     abstract static class FibonacciAlgorithm {
         abstract long fibonacci(int length);
     }
 
-    static class ForLoopFibonacci extends FibonacciAlgorithm {
+    class ForLoopFibonacci extends FibonacciAlgorithm {
         @Override
         long fibonacci(int length) {
             long a = 0, b = 1, c, i;
@@ -30,7 +30,7 @@ public class fib {
         }
     }
 
-    static class WhileLoopFibonacci extends FibonacciAlgorithm {
+    class WhileLoopFibonacci extends FibonacciAlgorithm {
         @Override
         long fibonacci(int length) {
             long a = 0, b = 1;
@@ -45,7 +45,7 @@ public class fib {
         }
     }
 
-    static class RecursionFibonacci extends FibonacciAlgorithm {
+    class RecursionFibonacci extends FibonacciAlgorithm {
         @Override
         long fibonacci(int length) {
             return finishRecursion(length);
@@ -59,7 +59,7 @@ public class fib {
         }
     }
 
-    static class MatrixFibonacci extends FibonacciAlgorithm {
+    class MatrixFibonacci extends FibonacciAlgorithm {
         @Override
         long fibonacci(int length) {
             return matrixRecursive(length);
@@ -79,7 +79,7 @@ public class fib {
         }
     }
 
-    static class BinetFibonacci extends FibonacciAlgorithm {
+    class BinetFibonacci extends FibonacciAlgorithm {
         @Override
         long fibonacci(int length) {
             // Implement Binet Fibonacci here

@@ -1,5 +1,5 @@
 
-package com.nighthawk.spring_portfolio.mvc.beaker;
+package com.nighthawk.spring_portfolio.mvc.sorting;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +15,7 @@ import java.util.Random;
 @RequestMapping("/api/finalsort")
 @CrossOrigin(origins="https://ige-csa.github.io/")
 
-public class FinalSort {
+public class AllSorting {
 
     // Abstract base class defining the common structure for sorting algorithms
     abstract static class SortingAlgorithm {
