@@ -203,69 +203,19 @@ public class AllSorting {
             algorithmData.put(algorithmKey, measureSortingSpeed(new SelectionSort(), randomArray.clone()));
         }
 
-
-        // Swaps
-         for (int i = 1; i <= 12; i++) {
-            String algorithmKey = "mergeSwap" + i;
-            algorithmData.put(algorithmKey, measureSwaps(new MergeSort(), randomArray.clone()));
-        }
-
-        for (int i = 1; i <= 12; i++) {
-            String algorithmKey = "insertionSwap" + i;
-            algorithmData.put(algorithmKey, measureSwaps(new InsertionSort(), randomArray.clone()));
-        }
+        algorithmData.put("mergeSwap", measureSwaps(new MergeSort(), randomArray.clone()));
+        algorithmData.put("insertionSwap", measureSwaps(new InsertionSort(), randomArray.clone()));
+        algorithmData.put("bubbleSwap", measureSwaps(new BubbleSort(), randomArray.clone()));
+        algorithmData.put("selectionSwap", measureSwaps(new SelectionSort(), randomArray.clone()));
+        algorithmData.put("mergeComp", measureComparisons(new MergeSort(), randomArray.clone()));
+        algorithmData.put("insertionComp", measureComparisons(new InsertionSort(), randomArray.clone()));
+        algorithmData.put("bubbleComp", measureComparisons(new BubbleSort(), randomArray.clone()));
+        algorithmData.put("selectionComp", measureComparisons(new SelectionSort(), randomArray.clone()));
+        algorithmData.put("mergeIterations", measureIterations(new MergeSort(), randomArray.clone()));
+        algorithmData.put("insertionIterations", measureIterations(new InsertionSort(), randomArray.clone()));
+        algorithmData.put("bubbleIterations", measureIterations(new BubbleSort(), randomArray.clone()));
+        algorithmData.put("selectionIterations", measureIterations(new SelectionSort(), randomArray.clone()));
         
-        for (int i = 1; i <= 12; i++) {
-            String algorithmKey = "bubbleSwap" + i;
-            algorithmData.put(algorithmKey, measureSwaps(new BubbleSort(), randomArray.clone()));
-        }
-
-         for (int i = 1; i <= 12; i++) {
-            String algorithmKey = "selectionSwap" + i;
-            algorithmData.put(algorithmKey, measureSwaps(new SelectionSort(), randomArray.clone()));
-        }
-
-        // Comparisons
-        for (int i = 1; i <= 12; i++) {
-            String algorithmKey = "mergeComp" + i;
-            algorithmData.put(algorithmKey, measureComparisons(new MergeSort(), randomArray.clone()));
-        }
-
-        for (int i = 1; i <= 12; i++) {
-            String algorithmKey = "insertionComp" + i;
-            algorithmData.put(algorithmKey, measureComparisons(new InsertionSort(), randomArray.clone()));
-        }
-        
-        for (int i = 1; i <= 12; i++) {
-            String algorithmKey = "bubbleComp" + i;
-            algorithmData.put(algorithmKey, measureComparisons(new BubbleSort(), randomArray.clone()));
-        }
-
-         for (int i = 1; i <= 12; i++) {
-            String algorithmKey = "selectionComp" + i;
-            algorithmData.put(algorithmKey, measureComparisons(new SelectionSort(), randomArray.clone()));
-        }
-
-        // Iterations
-         for (int i = 1; i <= 12; i++) {
-            String algorithmKey = "mergeIterations" + i;
-            algorithmData.put(algorithmKey, measureIterations(new MergeSort(), randomArray.clone()));
-        }
-
-        for (int i = 1; i <= 12; i++) {
-            String algorithmKey = "insertionIterations" + i;
-            algorithmData.put(algorithmKey, measureIterations(new InsertionSort(), randomArray.clone()));
-        }
-        
-        for (int i = 1; i <= 12; i++) {
-            String algorithmKey = "bubbleIterations" + i;
-            algorithmData.put(algorithmKey, measureIterations(new BubbleSort(), randomArray.clone()));
-        }
-
-         for (int i = 1; i <= 12; i++) {
-            String algorithmKey = "selectionIterations" + i;
-            algorithmData.put(algorithmKey, measureIterations(new SelectionSort(), randomArray.clone()));
-        }
     
         return algorithmData;
     }
