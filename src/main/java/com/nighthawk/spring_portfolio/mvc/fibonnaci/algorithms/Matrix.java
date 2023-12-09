@@ -3,10 +3,13 @@ package com.nighthawk.spring_portfolio.mvc.fibonnaci.algorithms;
 import org.springframework.stereotype.Service;
 
 @Service
+// MATRIX MORE EFFICIENT THAN BINET FOR LARGER VALUES OF N 
 public class Matrix {
 
     // This method calculates the nth Fibonacci number using matrix exponentiation
     public FibonacciResult calculate(int n) {
+
+        // time when algorithm execution begins in nanoseconds
         long startTime = System.nanoTime();
 
         // Perform matrix exponentiation to calculate the (n-1)th power of {{1, 1}, {1, 0}}
@@ -15,10 +18,16 @@ public class Matrix {
         // Extract the Fibonacci number from the result matrix
         int fibonacci = result[0][0];
 
+        System.out.println("Start Time (before loop): " + startTime);
+        
+        // Duration in nanoseconds
         long endTime = System.nanoTime();
+        System.out.println("Start Time (after loop): " + startTime);
+        System.out.println("End Time: " + endTime);
+        System.out.println("Intermediate Result: " + (endTime - startTime) + " nanoseconds");
 
-        // Duration in milliseconds
-        long duration = (endTime - startTime) / 1000000;
+        // Duration in nanoseconds
+        long duration = endTime - startTime;
 
         return new FibonacciResult(fibonacci, duration);
     }
@@ -58,12 +67,10 @@ public class Matrix {
         private final long time;
         private final int fibNum;
 
-
         // Constructor to initialize the result with the Fibonacci number and time taken
         public FibonacciResult(int fibNum, long time) {
             this.time = time;
             this.fibNum = fibNum;
-            
         }
 
         // Getter method for retrieving the time taken for the calculation
@@ -75,7 +82,5 @@ public class Matrix {
         public int getFibNum() {
             return fibNum;
         }
-
-      
     }
 }
