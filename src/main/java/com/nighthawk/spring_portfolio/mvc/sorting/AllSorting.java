@@ -224,7 +224,7 @@ public class AllSorting {
     @GetMapping("/all")
     public Map<String, Integer> getData(@RequestParam(required = false) Integer arraySize) {
 
-        //10000 random integers
+        //10,000 random integers
         int size = (arraySize != null && arraySize > 0) ? arraySize : 10000;
 
         int[] randomArray = generateRandomArray(size);
