@@ -8,6 +8,7 @@ import com.nighthawk.spring_portfolio.mvc.fibonnaci.algorithms.Matrix;
 
 @RestController
 @RequestMapping("/api/fibonacci")
+@CrossOrigin(origins="https://ige-csa.github.io/")
 public class FibonacciController {
 
     @Autowired
